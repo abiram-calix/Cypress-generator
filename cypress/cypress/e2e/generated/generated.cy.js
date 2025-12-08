@@ -9,6 +9,19 @@ const actionMap = {
   assertText: (step) =>
     cy.get(step.selector).should("contain.text", step.value),
   assertUrl: (step) => cy.url().should("include", step.value),
+  "select-date": (step) => {
+    // Use contains to find the button with the day text inside the date picker dialog
+    cy.get(step.selector).contains("button", step.value).click();
+  },
+  assertText: (step) => {
+    cy.get(step.selector).should("contain.text", step.value);
+  },
+  assertValue: (step) => {
+    cy.get(step.selector).should("have.value", step.value);
+  },
+  assertUrl: (step) => {
+    cy.url().should("include", step.value);
+  },
 };
 
 describe(testData.tests[0].name, () => {

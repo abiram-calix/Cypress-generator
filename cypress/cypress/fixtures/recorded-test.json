@@ -40,6 +40,26 @@
         },
         {
           "action": "click",
+          "selector": "[data-testid=\"CalendarIcon\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[aria-label=\"Next month\"] svg",
+          "value": ""
+        },
+        {
+          "action": "select-date",
+          "selector": "[role=\"dialog\"]",
+          "value": "1"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"CalendarIcon\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
           "selector": "[data-testid=\"form-payment-term\"] span",
           "value": ""
         },
