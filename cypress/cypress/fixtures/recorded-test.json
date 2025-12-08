@@ -1,0 +1,79 @@
+{
+  "tests": [
+    {
+      "name": "Recorded Test",
+      "steps": [
+        {
+          "action": "click",
+          "selector": "[data-testid=\"ReportProblemOutlinedIcon\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"dropdown-secondary\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"option-new\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"form-duration\"] b",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"option-4\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"form-period-length\"] button",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"option-2\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"form-payment-term\"] span",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"option-30 NET\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"access-and-network-row-West Side Telecommunications\"] input",
+          "value": ""
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"access-and-network-row-West Side Telecommunications\"] input",
+          "value": "on"
+        },
+        {
+          "action": "select",
+          "selector": "[data-testid=\"network-select\"]",
+          "value": "1"
+        },
+        {
+          "action": "select",
+          "selector": "[data-testid=\"network-select\"]",
+          "value": "2"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"network-select\"]",
+          "value": "2"
+        }
+      ]
+    }
+  ]
+}

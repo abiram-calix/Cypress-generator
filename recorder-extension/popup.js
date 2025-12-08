@@ -1,4 +1,5 @@
 document.getElementById("start").addEventListener("click", () => {
+  console.log("Popup sending message:");
   chrome.runtime.sendMessage({ type: "START" });
 });
 
