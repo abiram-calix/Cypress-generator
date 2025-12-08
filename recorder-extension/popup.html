@@ -3,12 +3,47 @@
 
 <head>
     <title>Recorder</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 10px;
+        }
+
+        button {
+            margin: 5px;
+        }
+
+        #assertForm {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
     <button id="start" style="background-color: yellow;color: aliceblue;">Start Recording</button>
     <button id="stop">Stop Recording</button>
     <button id="export">Export JSON</button>
+    <button id="assertMode" style="background-color: lightgreen;">Add Assertion</button>
+
+    <div id="assertForm">
+        <p>Selected Element: <span id="selectedElement"></span></p>
+        <label>Assertion Type:
+            <select id="assertType">
+                <option value="assertText">Text Contains</option>
+                <option value="assertValue">Input Value</option>
+                <option value="assertVisible">Is Visible</option>
+                <option value="assertUrl">URL Contains</option>
+            </select>
+        </label>
+        <br><br>
+        <label>Expected Value:
+            <input type="text" id="expectedValue" placeholder="Enter expected text/value">
+        </label>
+        <br><br>
+        <button id="saveAssertion">Save Assertion</button>
+    </div>
+
     <pre id="log"></pre>
     <script src="popup.js"></script>
 </body>

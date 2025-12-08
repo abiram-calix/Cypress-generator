@@ -1,5 +1,6 @@
 console.log("Content script loaded successfully!");
 let isRecording = false;
+let isAssertionMode = false;
 let steps = [];
 
 // Utility: Debounce function
@@ -176,5 +177,30 @@ chrome.runtime.onMessage.addListener((msg) => {
   }
   if (msg.type === "STOP") {
     isRecording = false;
+  }
+  if (msg.type === "ASSERT_MODE") {
+    isAssertionMode = true;
+  }
+});
+
+// for assert mode
+document.addEventListener("click", (e) => {
+  if (isAssertionMode) {
+    e.preventDefault();
+    e.stopPropagation();
+    const selector = getBestSelector(e.target);
+
+    // ✅ Save selector in storage
+    chrome.storage.local.set({ currentAssertionSelector: selector }, () => {
+      chrome.runtime.sendMessage({ type: "ASSERT_SELECTED", selector });
+    });
+
+    isAssertionMode = false;
+    return;
+  }
+
+  if (isRecording) {
+    const selector = getBestSelector(e.target);
+    recordEvent("click", selector);
   }
 });
