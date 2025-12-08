@@ -2,92 +2,63 @@ console.log("Content script loaded successfully!");
 let isRecording = false;
 let steps = [];
 
+// Utility: Debounce function
+function debounce(fn, delay) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
+}
+
 function recordEvent(action, selector, value = "") {
   steps.push({ action, selector, value });
   chrome.storage.local.set({ recordedSteps: steps });
 }
 
-document.addEventListener("click", (e) => {
-  if (isRecording) {
-    const selector = getBestSelector(e.target);
+// ✅ Debounced input recording
+const debouncedRecordInput = debounce((e) => {
+  const selector = getBestSelector(e.target);
+  recordEvent("type", selector, e.target.value);
+}, 300);
 
-    if (e.target.tagName.toLowerCase() === "select") {
-      // Capture select action instead of click
-      const selectedValue = e.target.value;
-      recordEvent("select", selector, selectedValue);
-    } else {
-      recordEvent("click", selector);
+// ✅ Click event listener
+document.addEventListener("click", (e) => {
+  if (!isRecording) return;
+
+  const tagName = e.target.tagName.toLowerCase();
+
+  // Handle <select> elements
+  if (tagName === "select") {
+    const selector = getBestSelector(e.target);
+    const selectedValue = e.target.value;
+    recordEvent("select", selector, selectedValue);
+    return;
+  }
+
+  // Handle date picker day buttons
+  if (e.target.closest('[role="gridcell"]') && tagName === "button") {
+    const dayText = e.target.textContent.trim();
+    if (dayText) {
+      // Use dialog as parent selector for uniqueness
+      recordEvent("select-date", '[role="dialog"]', dayText);
+      return;
     }
   }
+
+  // Default click behaviour
+  const selector = getBestSelector(e.target);
+  recordEvent("click", selector);
 });
 
+// ✅ Input event listener
 document.addEventListener("input", (e) => {
   if (isRecording) {
     debouncedRecordInput(e);
   }
 });
 
-// Legacy fallback (still useful for XPath conversion)
-function getSelector(el) {
-  if (!el) return "";
-
-  // 1. Prefer data-testid or data-cy
-  if (el.getAttribute("data-testid")) {
-    return `[data-testid='${el.getAttribute("data-testid")}']`;
-  }
-  if (el.getAttribute("data-cy")) {
-    return `[data-cy='${el.getAttribute("data-cy")}']`;
-  }
-
-  // 2. Use ID if available
-  if (el.id) {
-    return `#${el.id}`;
-  }
-
-  // 3. Use name attribute
-  if (el.getAttribute("name")) {
-    return `[name='${el.getAttribute("name")}']`;
-  }
-
-  // 4. XPath fallback
-  return convertXPathToCSS(getXPath(el));
-}
-
-function convertXPathToCSS(xpath) {
-  return xpath
-    .replace(/\/\//g, " ") // Replace // with space
-    .replace(/\//g, " > ") // Replace / with >
-    .replace(/\[@id="([^"]+)"\]/g, "#$1") // id
-    .replace(/\[@class="([^"]+)"\]/g, ".$1") // class
-    .replace(/\[@([^=]+)="([^"]+)"\]/g, '[$1="$2"]') // attributes
-    .replace(/\[(\d+)\]/g, ":nth-child($1)"); // index
-}
-
-function getXPath(element) {
-  if (element.id) return `//*[@id="${element.id}"]`;
-  if (element === document.body) return "/html/body";
-
-  let ix = 0;
-  const siblings = element.parentNode ? element.parentNode.childNodes : [];
-  for (let i = 0; i < siblings.length; i++) {
-    const sibling = siblings[i];
-    if (sibling.nodeType === 1 && sibling.nodeName === element.nodeName) {
-      ix++;
-      if (sibling === element) {
-        return (
-          getXPath(element.parentNode) +
-          "/" +
-          element.nodeName.toLowerCase() +
-          "[" +
-          ix +
-          "]"
-        );
-      }
-    }
-  }
-}
-
-// ✅ Updated selector preferences with ID handling
+// Selector preferences (with ID handling)
 const selectorPreferences = [
   (el) =>
     el.getAttribute("data-cy")
@@ -116,7 +87,7 @@ const selectorPreferences = [
       : null,
 ];
 
-// ✅ Improved getBestSelector logic
+// ✅ Best selector logic
 function getBestSelector(el) {
   let selector = null;
 
@@ -161,7 +132,6 @@ function getBestSelector(el) {
         parentSelector &&
         document.querySelectorAll(parentSelector).length === 1
       ) {
-        // Combine unique parent with child tag or attribute
         const childTag = el.tagName.toLowerCase();
         return `${parentSelector} ${childTag}`;
       }
@@ -172,6 +142,7 @@ function getBestSelector(el) {
   return selector; // fallback
 }
 
+// ✅ Fallback CSS path builder
 function buildCssPath(el) {
   if (!el || el.nodeType !== 1) return "";
   let path = "";
@@ -196,19 +167,7 @@ function escapeAttr(value) {
   return value.replace(/"/g, '\\"'); // Escape quotes for CSS safety
 }
 
-function debounce(fn, delay) {
-  let timer;
-  return function (...args) {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn.apply(this, args), delay);
-  };
-}
-
-const debouncedRecordInput = debounce((e) => {
-  const selector = getBestSelector(e.target);
-  recordEvent("type", selector, e.target.value);
-}, 300); // 300ms delay
-
+// ✅ Chrome message listener
 chrome.runtime.onMessage.addListener((msg) => {
   if (msg.type === "START") {
     console.log("Content script received message:", msg.type);
