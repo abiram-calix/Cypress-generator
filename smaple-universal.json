@@ -1,0 +1,67 @@
+{
+  "tests": [
+    {
+      "name": "Login Flow",
+      "description": "Verify user can log in successfully",
+      "steps": [
+        {
+          "action": "visit",
+          "value": "/login"
+        },
+        {
+          "action": "type",
+          "selector": "#username",
+          "value": "testuser"
+        },
+        {
+          "action": "type",
+          "selector": "#password",
+          "value": "securePass123"
+        },
+        {
+          "action": "click",
+          "selector": "button[type='submit']"
+        },
+        {
+          "action": "assertUrl",
+          "value": "/dashboard"
+        },
+        {
+          "action": "assertText",
+          "selector": "h1",
+          "value": "Welcome"
+        }
+      ]
+    },
+    {
+      "name": "SmartBiz Standard Configuration",
+      "description": "Validate dropdown selections and date inputs",
+      "steps": [
+        {
+          "action": "select",
+          "selector": "[data-testid='form-duration']",
+          "value": "4 Years"
+        },
+        {
+          "action": "select",
+          "selector": "[data-testid='form-period-length']",
+          "value": "6 Months"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid='CalendarIcon']"
+        },
+        {
+          "action": "dateSelect",
+          "selector": "[data-testid='form-start-date']",
+          "value": "2025-12-01"
+        },
+        {
+          "action": "assertText",
+          "selector": "[data-testid='form-duration'] span",
+          "value": "4 Years"
+        }
+      ]
+    }
+  ]
+}

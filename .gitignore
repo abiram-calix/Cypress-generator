@@ -1,0 +1,22 @@
+# Node modules
+node_modules/
+
+# Cypress output
+cypress/videos/
+cypress/screenshots/
+
+# Generated test files
+cypress/e2e/generated/
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Chrome Extension build artifacts
+recorder-extension/*.zip
+
+# Environment files
+.env
