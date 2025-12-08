@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Chrome Extension Recorder",
+  "version": "1.0",
+  "description": "Records user interactions on a webpage",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
