@@ -17,15 +17,20 @@ function recordEvent(action, selector, value = "") {
   chrome.storage.local.set({ recordedSteps: steps });
 }
 
-// ✅ Debounced input recording
-const debouncedRecordInput = debounce((e) => {
-  const selector = getBestSelector(e.target);
-  recordEvent("type", selector, e.target.value);
-}, 300);
+const handleClickDebounced = debounce((e) => {
+  if (isAssertionMode) {
+    e.preventDefault();
+    e.stopPropagation();
+    const selector = getBestSelector(e.target);
 
-// ✅ Click event listener
-document.addEventListener("click", (e) => {
-  if (!isRecording) return;
+    // ✅ Save selector in storage
+    chrome.storage.local.set({ currentAssertionSelector: selector }, () => {
+      chrome.runtime.sendMessage({ type: "ASSERT_SELECTED", selector });
+    });
+
+    isAssertionMode = false;
+    return;
+  }
 
   const tagName = e.target.tagName.toLowerCase();
 
@@ -50,6 +55,18 @@ document.addEventListener("click", (e) => {
   // Default click behaviour
   const selector = getBestSelector(e.target);
   recordEvent("click", selector);
+});
+
+// ✅ Debounced input recording
+const debouncedRecordInput = debounce((e) => {
+  const selector = getBestSelector(e.target);
+  recordEvent("type", selector, e.target.value);
+}, 300);
+
+// ✅ Click event listener
+document.addEventListener("click", (e) => {
+  if (!isRecording) return;
+  handleClickDebounced(e);
 });
 
 // ✅ Input event listener
@@ -180,27 +197,5 @@ chrome.runtime.onMessage.addListener((msg) => {
   }
   if (msg.type === "ASSERT_MODE") {
     isAssertionMode = true;
-  }
-});
-
-// for assert mode
-document.addEventListener("click", (e) => {
-  if (isAssertionMode) {
-    e.preventDefault();
-    e.stopPropagation();
-    const selector = getBestSelector(e.target);
-
-    // ✅ Save selector in storage
-    chrome.storage.local.set({ currentAssertionSelector: selector }, () => {
-      chrome.runtime.sendMessage({ type: "ASSERT_SELECTED", selector });
-    });
-
-    isAssertionMode = false;
-    return;
-  }
-
-  if (isRecording) {
-    const selector = getBestSelector(e.target);
-    recordEvent("click", selector);
   }
 });
