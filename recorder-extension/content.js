@@ -21,6 +21,7 @@ const handleClickDebounced = debounce((e) => {
   if (isAssertionMode) {
     e.preventDefault();
     e.stopPropagation();
+
     const selector = getBestSelector(e.target);
 
     // ✅ Save selector in storage
@@ -29,6 +30,21 @@ const handleClickDebounced = debounce((e) => {
     });
 
     isAssertionMode = false;
+    return;
+  }
+
+  // ✅ Ignore clicks on assertion popup components
+  if (
+    e.target.closest("#cypress-assertion-popup") ||
+    e.target.id === "cypress-assertion-popup" ||
+    [
+      "assertion-type",
+      "assertion-value",
+      "save-assertion",
+      "cancel-assertion",
+      "close-assertion-popup",
+    ].includes(e.target.id)
+  ) {
     return;
   }
 
@@ -75,6 +91,135 @@ document.addEventListener("input", (e) => {
     debouncedRecordInput(e);
   }
 });
+
+// ✅ Double-click event listener for assertions
+document.addEventListener("dblclick", (e) => {
+  if (!isRecording) return;
+
+  e.preventDefault();
+  e.stopPropagation();
+
+  const selector = getBestSelector(e.target);
+  showAssertionPopup(selector, e.clientX, e.clientY);
+});
+
+// Create assertion popup
+function showAssertionPopup(selector, x, y) {
+  // Remove any existing popup
+  const existingPopup = document.querySelector("#cypress-assertion-popup");
+  if (existingPopup) {
+    existingPopup.remove();
+  }
+
+  // Create popup container
+  const popup = document.createElement("div");
+  popup.id = "cypress-assertion-popup";
+  popup.style.cssText = `
+    position: fixed;
+    top: ${Math.min(y + 10, window.innerHeight - 200)}px;
+    left: ${Math.min(x + 10, window.innerWidth - 300)}px;
+    width: 280px;
+    background: white;
+    border: 2px solid #007ACC;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 10000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+  `;
+
+  popup.innerHTML = `
+    <div style="margin-bottom: 10px;">
+      <strong>Add Assertion</strong>
+      <button id="close-assertion-popup" style="float: right; background: none; border: none; font-size: 16px; cursor: pointer;">&times;</button>
+    </div>
+    <div style="margin-bottom: 8px; font-size: 11px; color: #666; word-break: break-all;">
+      Element: <code style="background: #f5f5f5; padding: 2px 4px; border-radius: 3px;">${selector}</code>
+    </div>
+    <div style="margin-bottom: 10px;">
+      <label style="display: block; margin-bottom: 5px;">Assertion Type:</label>
+      <select id="assertion-type" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+        <option value="should('be.visible')">Should be visible</option>
+        <option value="should('contain.text', 'TEXT')">Should contain text</option>
+        <option value="should('have.value', 'VALUE')">Should have value</option>
+        <option value="should('have.class', 'CLASS')">Should have class</option>
+        <option value="should('be.disabled')">Should be disabled</option>
+        <option value="should('be.enabled')">Should be enabled</option>
+        <option value="should('be.checked')">Should be checked</option>
+      </select>
+    </div>
+    <div id="assertion-value-container" style="margin-bottom: 10px; display: none;">
+      <label style="display: block; margin-bottom: 5px;">Expected Value:</label>
+      <input type="text" id="assertion-value" placeholder="Enter expected value" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <button id="save-assertion" style="flex: 1; padding: 8px; background: #007ACC; color: white; border: none; border-radius: 4px; cursor: pointer;">Add Assertion</button>
+      <button id="cancel-assertion" style="flex: 1; padding: 8px; background: #ccc; color: black; border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
+    </div>
+  `;
+
+  document.body.appendChild(popup);
+
+  // Handle assertion type change
+  const assertionType = popup.querySelector("#assertion-type");
+  const valueContainer = popup.querySelector("#assertion-value-container");
+  const valueInput = popup.querySelector("#assertion-value");
+
+  assertionType.addEventListener("change", () => {
+    const selectedValue = assertionType.value;
+    if (
+      selectedValue.includes("TEXT") ||
+      selectedValue.includes("VALUE") ||
+      selectedValue.includes("CLASS")
+    ) {
+      valueContainer.style.display = "block";
+      valueInput.focus();
+    } else {
+      valueContainer.style.display = "none";
+    }
+  });
+
+  // Handle save assertion
+  popup.querySelector("#save-assertion").addEventListener("click", () => {
+    const assertionValue = valueInput.value;
+    let finalAssertion = assertionType.value;
+
+    // Replace placeholders with actual values
+    if (finalAssertion.includes("TEXT") && assertionValue) {
+      finalAssertion = finalAssertion.replace("TEXT", assertionValue);
+    } else if (finalAssertion.includes("VALUE") && assertionValue) {
+      finalAssertion = finalAssertion.replace("VALUE", assertionValue);
+    } else if (finalAssertion.includes("CLASS") && assertionValue) {
+      finalAssertion = finalAssertion.replace("CLASS", assertionValue);
+    }
+
+    // Record the assertion
+    recordEvent("assert", selector, finalAssertion);
+
+    console.log(`🔍 Assertion added: ${selector}.${finalAssertion}`);
+    popup.remove();
+  });
+
+  // Handle cancel/close
+  popup
+    .querySelector("#cancel-assertion")
+    .addEventListener("click", () => popup.remove());
+  popup
+    .querySelector("#close-assertion-popup")
+    .addEventListener("click", () => popup.remove());
+
+  // Close on Escape key
+  document.addEventListener("keydown", function escapeHandler(e) {
+    if (e.key === "Escape") {
+      popup.remove();
+      document.removeEventListener("keydown", escapeHandler);
+    }
+  });
+
+  // Focus the select dropdown
+  assertionType.focus();
+}
 
 // Selector preferences (with ID handling)
 const selectorPreferences = [

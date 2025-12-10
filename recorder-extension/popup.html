@@ -2,46 +2,228 @@
 <html>
 
 <head>
-    <title>Recorder</title>
+    <title>Cypress Test Recorder</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial;
-            padding: 10px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            width: 320px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .header {
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .controls {
+            padding: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         button {
-            margin: 5px;
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
-        #assertForm {
+        #start {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            color: white;
+            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+        }
+
+        #start:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(17, 153, 142, 0.5);
+        }
+
+        #start:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        #stop {
+            background: linear-gradient(135deg, #fc4a1a, #f7b733);
+            color: white;
+            box-shadow: 0 4px 15px rgba(252, 74, 26, 0.4);
+        }
+
+        #stop:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(252, 74, 26, 0.5);
+        }
+
+        #stop:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        #export {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        #export:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .status {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status.recording .status-indicator {
+            background: #38ef7d;
+            animation: pulse 1.5s infinite;
+        }
+
+        .status.stopped .status-indicator {
+            background: #ff6b6b;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .instructions h3 {
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .instructions ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .instructions li {
+            margin-bottom: 5px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .instructions li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #38ef7d;
+            font-weight: bold;
+        }
+
+        #log {
             display: none;
-            margin-top: 10px;
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
         }
     </style>
 </head>
 
 <body>
-    <button id="start" style="background-color: yellow;color: aliceblue;">Start Recording</button>
-    <button id="stop">Stop Recording</button>
-    <button id="export">Export JSON</button>
-    <button id="assertMode" style="background-color: lightgreen;">Add Assertion</button>
+    <div class="header">
+        <h1>Cypress Test Recorder</h1>
+        <p>Record interactions & create tests</p>
+    </div>
 
-    <div id="assertForm">
-        <p>Selected Element: <span id="selectedElement"></span></p>
-        <label>Assertion Type:
-            <select id="assertType">
-                <option value="assertText">Text Contains</option>
-                <option value="assertValue">Input Value</option>
-                <option value="assertVisible">Is Visible</option>
-                <option value="assertUrl">URL Contains</option>
-            </select>
-        </label>
-        <br><br>
-        <label>Expected Value:
-            <input type="text" id="expectedValue" placeholder="Enter expected text/value">
-        </label>
-        <br><br>
-        <button id="saveAssertion">Save Assertion</button>
+    <div class="controls">
+        <div class="status stopped" id="status">
+            <span class="status-indicator"></span>
+            <span id="status-text">Ready to record</span>
+        </div>
+
+        <div class="button-group">
+            <button id="start">
+                Start Recording
+            </button>
+        </div>
+
+        <div class="button-group">
+            <button id="stop" disabled>
+                Stop Recording
+            </button>
+        </div>
+
+        <div class="button-group">
+            <button id="export">
+                Export Test
+            </button>
+        </div>
+
+        <div class="instructions">
+            <h3>How to use:</h3>
+            <ul>
+                <li>Click "Start Recording"</li>
+                <li>Single click = Record action</li>
+                <li>Double click = Add assertion</li>
+                <li>Click "Stop" when done</li>
+                <li>Export your test file</li>
+            </ul>
+        </div>
     </div>
 
     <pre id="log"></pre>

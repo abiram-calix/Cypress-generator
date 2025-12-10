@@ -25,11 +25,6 @@
         },
         {
           "action": "click",
-          "selector": "[data-testid=\"form-item-container\"]",
-          "value": ""
-        },
-        {
-          "action": "click",
           "selector": "[data-testid=\"form-period-length\"] button",
           "value": ""
         },
@@ -40,12 +35,32 @@
         },
         {
           "action": "click",
+          "selector": "[data-testid=\"CalendarIcon\"] path",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[aria-label=\"Next month\"] path",
+          "value": ""
+        },
+        {
+          "action": "select-date",
+          "selector": "[role=\"dialog\"]",
+          "value": "1"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"CalendarIcon\"] path",
+          "value": ""
+        },
+        {
+          "action": "click",
           "selector": "[data-testid=\"form-payment-term\"] button",
           "value": ""
         },
         {
           "action": "click",
-          "selector": "[data-testid=\"option-60 NET\"]",
+          "selector": "[data-testid=\"option-45 NET\"]",
           "value": ""
         },
         {
@@ -56,22 +71,7 @@
         {
           "action": "type",
           "selector": "[data-testid=\"po-number-1\"]",
-          "value": "po"
-        },
-        {
-          "action": "type",
-          "selector": "[data-testid=\"po-number-1\"]",
-          "value": "po-1"
-        },
-        {
-          "action": "click",
-          "selector": "[data-testid=\"implementation-input-id-110-01555-1\"]",
-          "value": ""
-        },
-        {
-          "action": "type",
-          "selector": "[data-testid=\"implementation-input-id-110-01555-1\"]",
-          "value": "on"
+          "value": "890"
         }
       ]
     }
