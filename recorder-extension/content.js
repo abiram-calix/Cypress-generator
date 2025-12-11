@@ -58,15 +58,7 @@ const handleClickDebounced = debounce((e) => {
 
   const tagName = e.target.tagName.toLowerCase();
 
-  // Handle <select> elements
-  if (tagName === "select") {
-    const selector = getBestSelector(e.target);
-    const selectedValue = e.target.value;
-    recordEvent("select", selector, selectedValue);
-    return;
-  }
-
-  // Handle date picker day buttons
+  // Handle date picker day buttons (keep this in click handler)
   if (e.target.closest('[role="gridcell"]') && tagName === "button") {
     const dayText = e.target.textContent.trim();
     if (dayText) {
@@ -74,6 +66,14 @@ const handleClickDebounced = debounce((e) => {
       recordEvent("select-date", '[role="dialog"]', dayText);
       return;
     }
+  }
+
+  // Skip select elements - they're handled by change event listener
+  if (tagName === "select") {
+    console.log(
+      `🔄 Skipping click on select element, will be handled by change event`
+    );
+    return;
   }
 
   // Check if this is the same element being clicked multiple times (text selection)
@@ -143,11 +143,19 @@ const handleClickDebounced = debounce((e) => {
 
 // ✅ Debounced input recording
 const debouncedRecordInput = debounce((e) => {
-  // Skip input recording for checkboxes and radio buttons - they should only be recorded as clicks
+  // Skip input recording for checkboxes, radio buttons, and select elements - they should only be recorded as clicks
   const inputType = e.target.type;
-  if (inputType === "checkbox" || inputType === "radio") {
+  const tagName = e.target.tagName.toLowerCase();
+
+  if (
+    inputType === "checkbox" ||
+    inputType === "radio" ||
+    tagName === "select"
+  ) {
     console.log(
-      `🔄 Skipping input recording for ${inputType}, will be handled by click event`
+      `🔄 Skipping input recording for ${
+        tagName === "select" ? tagName : inputType
+      }, will be handled by click event`
     );
     return;
   }
@@ -182,6 +190,21 @@ document.addEventListener("input", (e) => {
   }
 
   debouncedRecordInput(e);
+});
+
+// ✅ Change event listener specifically for select elements
+document.addEventListener("change", (e) => {
+  if (!isRecording) return;
+
+  const tagName = e.target.tagName.toLowerCase();
+
+  // Only handle select elements in change event
+  if (tagName === "select") {
+    const selector = getBestSelector(e.target);
+    const selectedValue = e.target.value;
+    recordEvent("select", selector, selectedValue);
+    console.log(`📋 Select recorded: ${selector} = ${selectedValue}`);
+  }
 });
 
 // ✅ Double-click event listener for assertions

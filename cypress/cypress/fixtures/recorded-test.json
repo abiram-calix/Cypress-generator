@@ -30,7 +30,7 @@
         },
         {
           "action": "click",
-          "selector": "[data-testid=\"form-period-length\"] span",
+          "selector": "[data-testid=\"form-period-length\"] button",
           "value": ""
         },
         {
@@ -40,7 +40,37 @@
         },
         {
           "action": "click",
-          "selector": "[aria-label=\"Choose date, selected date is Jan 1, 2026\"]",
+          "selector": "[data-testid=\"form-period-length\"] button",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"option-4\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"form-period-length\"] button",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"option-1\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"form-introductory-period\"] button",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"option-1\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"CalendarIcon\"] path",
           "value": ""
         },
         {
@@ -55,7 +85,7 @@
         },
         {
           "action": "click",
-          "selector": "[data-testid=\"CalendarIcon\"]",
+          "selector": "[data-testid=\"form-item-container\"]",
           "value": ""
         },
         {
@@ -65,18 +95,93 @@
         },
         {
           "action": "click",
-          "selector": "[data-testid=\"option-30 NET\"]",
+          "selector": "[data-testid=\"option-45 NET\"]",
           "value": ""
         },
         {
+          "action": "assertText",
+          "selector": "[data-testid=\"form-item-container\"] span",
+          "value": "This quote will require approval because a non-default payment term has been selected"
+        },
+        {
           "action": "click",
-          "selector": "[data-testid=\"implementation-input-id-110-01556-1\"]",
+          "selector": "[data-testid=\"po-number-1\"]",
           "value": ""
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-1\"]",
+          "value": "p-01"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-2\"]",
+          "value": "p-2"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-3\"]",
+          "value": "p-"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-3\"]",
+          "value": "p-2"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-3\"]",
+          "value": "p-22"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-4\"]",
+          "value": "p"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-4\"]",
+          "value": "p-"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-4\"]",
+          "value": "p-1"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-4\"]",
+          "value": "p-11"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-5\"]",
+          "value": "p-"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-5\"]",
+          "value": "p-12"
         },
         {
           "action": "click",
           "selector": "[data-testid=\"price-input-000-01293-1\"]",
           "value": ""
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"price-input-000-01293-1\"]",
+          "value": "18"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"price-input-000-01293-1\"]",
+          "value": "18"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"price-input-000-01293-1\"]",
+          "value": "1"
         },
         {
           "action": "type",
@@ -94,9 +199,24 @@
           "value": "-2.70%"
         },
         {
+          "action": "click",
+          "selector": "[data-testid=\"access-and-network-row-Commsoft\"] input",
+          "value": ""
+        },
+        {
+          "action": "select",
+          "selector": "[data-testid=\"network-select\"]",
+          "value": "2"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"implementation-input-id-110-01555-1\"]",
+          "value": ""
+        },
+        {
           "action": "assertText",
           "selector": "[data-testid=\"form-summary-table\"] td",
-          "value": "$65,625.00 USD"
+          "value": "$64,525.00 USD"
         }
       ]
     }
