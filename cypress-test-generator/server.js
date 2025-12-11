@@ -145,6 +145,7 @@ const server = http.createServer(async (req, res) => {
             try {
                 // Parse JSON from request body
                 const jsonData = JSON.parse(body);
+                const cypressTestFileName = jsonData.tests[0].name.replace(/\s+/g, '_').toLowerCase();
                 // console.log(body);
 
                 // // Generate and save Cypress test files
@@ -154,23 +155,20 @@ const server = http.createServer(async (req, res) => {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify(result));
                 // Single command that chains all operations
-                // exec('cd .. && cd cypress && npx cypress run --spec "cypress/e2e/generated/login_test.cy.js"',
-                //     (error, stdout, stderr) => {
-                //         if (error) {
-                //             console.error(`exec error: ${error}`);
-                //             return;
-                //         }
-                //         if (stderr) {
-                //             console.error(`stderr: ${stderr}`);
-                //             return;
-                //         }
-                //         console.log(`stdout: ${stdout}`);
-                //     }
-                // );
+                exec(`cd ../cypress && npx cypress run --config-file cypress.config.js --spec "cypress/e2e/generated/recorded_test.cy.js"`,
+                    (error, stdout, stderr) => {
+                        if (error) {
+                            console.error(`exec error: ${error}`);
+                            return;
+                        }
+                        if (stderr) {
+                            console.error(`stderr: ${stderr}`);
+                        }
+                        console.log(`stdout: ${stdout}`);
+                    }
+                );
             } catch (error) {
                 console.error('Error processing request:', error);
-
-                // Send error response
                 res.writeHead(400, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({
                     success: false,
