@@ -437,9 +437,15 @@ chrome.runtime.onMessage.addListener((msg) => {
     console.log("Content script received message:", msg.type);
     isRecording = true;
     steps = [];
+    
+    // Record the current URL as the first step
+    const currentUrl = window.location.href;
+    recordEvent("visit", "", currentUrl);
+    console.log(`🌐 Recording started with URL: ${currentUrl}`);
   }
   if (msg.type === "STOP") {
     isRecording = false;
+    console.log("⏹️ Recording stopped");
   }
   if (msg.type === "ASSERT_MODE") {
     isAssertionMode = true;
