@@ -44,6 +44,7 @@ const actionMap = {
     });
   },
   select: (step) => cy.get(step.selector).select(step.value),
+  assertUrl: (step) => cy.url().should("include", step.value),
   "select-date": (step) => {
     // Use contains to find the button with the day text inside the date picker dialog
     cy.get(step.selector).contains("button", step.value).click();
