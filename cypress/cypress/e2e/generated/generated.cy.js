@@ -5,7 +5,32 @@ import testData from "../../fixtures/recorded-test.json"; // Place your JSON her
 const actionMap = {
   // User interaction actions
   click: (step) => cy.get(step.selector).click(),
-  type: (step) => cy.get(step.selector).type(step.value),
+  type: (step) => {
+    // Check if it's a checkbox or radio input
+    cy.get(step.selector).then(($el) => {
+      const inputType = $el.attr("type");
+      if (inputType === "checkbox") {
+        // For checkboxes, force the desired state
+        if (
+          step.value === "on" ||
+          step.value === "true" ||
+          step.value === "checked"
+        ) {
+          // Should be checked - force check even if already checked
+          cy.get(step.selector).check({ force: true });
+        } else {
+          // Should be unchecked - force uncheck
+          cy.get(step.selector).uncheck({ force: true });
+        }
+      } else if (inputType === "radio") {
+        // For radio buttons, just click to select
+        cy.get(step.selector).click();
+      } else {
+        // For text inputs, clear first then type
+        cy.get(step.selector).clear().type(step.value);
+      }
+    });
+  },
   select: (step) => cy.get(step.selector).select(step.value),
   "select-date": (step) => {
     // Use contains to find the button with the day text inside the date picker dialog
