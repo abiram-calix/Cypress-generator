@@ -42,7 +42,7 @@ function createTestCode(JSONTestObject) {
                 break;
 
             case 'type':
-                codeBlock += `\n    cy.get('${step.selector}').type('${step.value}');`;
+                codeBlock += `\n    cy.get('${step.selector}').then(($el) => {\n      const inputType = $el.attr("type");\n      if (inputType === "checkbox") {\n        if (step.value === "on" || step.value === "true" || step.value === "checked") {\n          cy.get('${step.selector}').check({ force: true });\n        } else {\n          cy.get('${step.selector}').uncheck({ force: true });\n        }\n      } else if (inputType === "radio") {\n        cy.get('${step.selector}').click();\n      } else {\n        if (step.value === "" || step.value == null) {\n          cy.get('${step.selector}').clear();\n        } else {\n          cy.get('${step.selector}').clear().type('${step.value}');\n        }\n      }});`;
                 break;
 
             case 'select':
@@ -159,7 +159,6 @@ const server = http.createServer(async (req, res) => {
                     (error, stdout, stderr) => {
                         if (error) {
                             console.error(`exec error: ${error}`);
-                            return;
                         }
                         if (stderr) {
                             console.error(`stderr: ${stderr}`);
