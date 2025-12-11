@@ -143,6 +143,15 @@ const handleClickDebounced = debounce((e) => {
 
 // ✅ Debounced input recording
 const debouncedRecordInput = debounce((e) => {
+  // Skip input recording for checkboxes and radio buttons - they should only be recorded as clicks
+  const inputType = e.target.type;
+  if (inputType === "checkbox" || inputType === "radio") {
+    console.log(
+      `🔄 Skipping input recording for ${inputType}, will be handled by click event`
+    );
+    return;
+  }
+
   const selector = getBestSelector(e.target);
   recordEvent("type", selector, e.target.value);
 }, 300);

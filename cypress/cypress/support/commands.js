@@ -29,7 +29,7 @@ commandsToDelay.forEach((command) => {
   Cypress.Commands.overwrite(command, (originalFn, ...args) => {
     //const result = originalFn(...args);
     return new Promise((resolve) => {
-      setTimeout(() => resolve(originalFn(...args)), 500);
+      setTimeout(() => resolve(originalFn(...args)), 1000);
     });
   });
 });
@@ -37,6 +37,6 @@ commandsToDelay.forEach((command) => {
 // Override the default click command
 Cypress.Commands.overwrite("click", (originalFn, subject, options) => {
   // Merge existing options with force: true
-  const newOptions = { ...options, force: true };
+  const newOptions = { ...options, force: true, timeout: 10000 };
   return originalFn(subject, newOptions);
 });

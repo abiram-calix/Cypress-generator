@@ -5,7 +5,7 @@
       "steps": [
         {
           "action": "click",
-          "selector": "[data-testid=\"dropdown-secondary\"] span",
+          "selector": "[data-testid=\"dropdown-secondary\"]",
           "value": ""
         },
         {
@@ -50,7 +50,7 @@
         },
         {
           "action": "click",
-          "selector": "[data-testid=\"form-item-container\"]",
+          "selector": "[data-testid=\"CalendarIcon\"]",
           "value": ""
         },
         {
@@ -64,6 +64,16 @@
           "value": ""
         },
         {
+          "action": "assertText",
+          "selector": "[data-testid=\"form-item-container\"] span",
+          "value": "This quote will require approval because a non-default payment term has been selected"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"implementation-input-id-110-01555-1\"]",
+          "value": ""
+        },
+        {
           "action": "click",
           "selector": "[data-testid=\"po-number-1\"]",
           "value": ""
@@ -71,17 +81,22 @@
         {
           "action": "type",
           "selector": "[data-testid=\"po-number-1\"]",
+          "value": "12"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"po-number-2\"]",
+          "value": ""
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-2\"]",
           "value": "1"
         },
         {
           "action": "type",
           "selector": "[data-testid=\"po-number-2\"]",
-          "value": "2"
-        },
-        {
-          "action": "click",
-          "selector": "[data-testid=\"po-number-2\"]",
-          "value": ""
+          "value": "112"
         },
         {
           "action": "click",
@@ -101,7 +116,22 @@
         {
           "action": "type",
           "selector": "[data-testid=\"po-number-4\"]",
-          "value": "1111"
+          "value": "1"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-4\"]",
+          "value": "12"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-4\"]",
+          "value": "121"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-5\"]",
+          "value": "1"
         },
         {
           "action": "click",
@@ -111,7 +141,12 @@
         {
           "action": "type",
           "selector": "[data-testid=\"po-number-5\"]",
-          "value": "11111"
+          "value": "12"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-5\"]",
+          "value": "122"
         },
         {
           "action": "click",
@@ -121,7 +156,7 @@
         {
           "action": "type",
           "selector": "[data-testid=\"po-number-6\"]",
-          "value": "111111"
+          "value": "222"
         },
         {
           "action": "click",
@@ -131,7 +166,17 @@
         {
           "action": "type",
           "selector": "[data-testid=\"po-number-7\"]",
-          "value": "1111111"
+          "value": "2"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-7\"]",
+          "value": "21"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-7\"]",
+          "value": "212"
         },
         {
           "action": "click",
@@ -141,12 +186,42 @@
         {
           "action": "type",
           "selector": "[data-testid=\"po-number-8\"]",
-          "value": "121212"
+          "value": "221"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"price-input-000-01293-1\"]",
+          "value": ""
+        },
+        {
+          "action": "assertValue",
+          "selector": "[data-testid=\"price-input-000-01293-1\"]",
+          "value": "18.5"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"price-input-000-01293-1\"]",
+          "value": "1"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"price-input-000-01293-1\"]",
+          "value": "2"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"price-input-000-01293-1\"]",
+          "value": "22"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"form-item-container\"]",
+          "value": ""
         },
         {
           "action": "assertText",
           "selector": "[data-testid=\"form-summary-table\"] td",
-          "value": "$61,550.00 USD"
+          "value": "$64,575.00 USD"
         }
       ]
     }
