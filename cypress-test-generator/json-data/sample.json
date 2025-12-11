@@ -1,0 +1,104 @@
+{
+    "tests": [
+        {
+            "name": "Recorded Test",
+            "steps": [
+                {
+                    "action": "visit",
+                    "value": "http://localhost:3000/subscription-configurator/multi-product-bundle?version=3&transactionId=139237929&accountId=0017000000SbVDO&jwt=eyJhbGciOiJIUzI1NiJ9.eyJBY2NvdW50IjoiQ0FMSVgiLCJFY29tQ2hlY2tvdXQiOiJ0cnVlIiwiRmlyc3ROYW1lIjoiQ29tbWVyY2UiLCJFQ29tbWVyY2VBY2Nlc3MiOlsiUXVvdGUiLCJDaGVja291dCIsIk9yZGVyIE1hbmFnZXIiXSwiQ29udGFjdElkIjoiMDAzMGcwMDAwMlRJTzRiQUFIIiwiVXNlclNGaWQiOiIwMDUwZzAwMDAwNXRvWEFBQVkiLCJBY2NvdW50U0ZpZCI6IjAwMTcwMDAwMDBtQVBtWEFBVyIsIk9yYWNsZUlkIjoiIiwiRWNvbUFjY2VzcyI6InRydWUiLCJ1c2VyVHlwZSI6IlNZU1RFTSIsIkxhc3ROYW1lIjoiU3lzdGVtIiwiaWF0IjoxNTg2Mjk0NDQ5LCJlbWFpbCI6ImNvbW1lcmNlc3lzdGVtQGNhbGl4LmNvbSIsInVzZXJuYW1lIjoiY29tbWVyY2VzeXN0ZW1AY2FsaXguY29tIn0.KhBvDhLu8WMlzL9SwmMf-vd4r26NmXuVm0KOQxsrM78&certified=true&channel=direct&zone=AMERICAS&priceBook=Standard&currency=USD&readOnly=false&groups=salesUser%2CsubscriptionAll%2CorderManagement%2CrenewalsTeam%2CcommercialSolutions%2CsubscriptionRenewal%2CconfigIqAppsPayAsYouGo%2CconfigIqApps%2CsubscriptionUpgrade%2Ccloud%2CsubscriptionLicenseReturn%2CsubscriptionCancel%2CsubscriptionReplacement%2CcommercialSolutionsAdmin%2CsalesManager%2Clevel2Approvers%2CcustomerOperations%2CpSApprovalGroup%2CsubscriptionTrueUp%2CcSApprovers%2CsubscriptionUpdateBookPrice%2CapprovalAdminGroup%2CtRApprovers%2CsubscriptionLicensePurchase%2Clevel1Approvers%2CpricingWizzard%2CprofessionalServicesConsultant%2CprofessionalServicesManager%2CsubscriptionCreate%2CprofessionalServicesSrManager%2CcloudDme%2CsubscriptionAmendment%2CprofessionalServicesUser%2CpricingCommittee&headerLineNumber=10&returnUrl=https%3A%2F%2Fdevcalix.bigmachines.com%2Fcommerce%2Fbuyside%2Fdocument.jsp%3Fformaction%3DperformAction%26document_id%3D4653823%26action_id%3D4654396%26bm_cm_process_id%3D4653759%26id%3D139237929",
+                    "selector": ""
+                },
+                {
+                    "action": "click",
+                    "selector": "[data-testid=\"ReportProblemOutlinedIcon\"]",
+                    "value": ""
+                },
+                {
+                    "action": "click",
+                    "selector": "[data-testid=\"dropdown-secondary\"]",
+                    "value": ""
+                },
+                {
+                    "action": "click",
+                    "selector": "[data-testid=\"option-new\"]",
+                    "value": ""
+                },
+                {
+                    "action": "click",
+                    "selector": "[data-testid=\"form-duration\"] b",
+                    "value": ""
+                },
+                {
+                    "action": "click",
+                    "selector": "[data-testid=\"option-4\"]",
+                    "value": ""
+                },
+                {
+                    "action": "click",
+                    "selector": "[data-testid=\"form-period-length\"] button",
+                    "value": ""
+                },
+                {
+                    "action": "click",
+                    "selector": "[data-testid=\"option-2\"]",
+                    "value": ""
+                },
+                {
+                    "action": "click",
+                    "selector": "[data-testid=\"CalendarIcon\"]",
+                    "value": ""
+                },
+                {
+                    "action": "click",
+                    "selector": "[aria-label=\"Next month\"] svg",
+                    "value": ""
+                },
+                {
+                    "action": "select-date",
+                    "selector": "[role=\"dialog\"]",
+                    "value": "1"
+                },
+                {
+                    "action": "click",
+                    "selector": "[data-testid=\"CalendarIcon\"]",
+                    "value": ""
+                },
+                {
+                    "action": "click",
+                    "selector": "[data-testid=\"form-payment-term\"] span",
+                    "value": ""
+                },
+                {
+                    "action": "click",
+                    "selector": "[data-testid=\"option-30 NET\"]",
+                    "value": ""
+                },
+                {
+                    "action": "click",
+                    "selector": "[data-testid=\"access-and-network-row-West Side Telecommunications\"] input",
+                    "value": ""
+                },
+                {
+                    "action": "type",
+                    "selector": "[data-testid=\"access-and-network-row-West Side Telecommunications\"] input",
+                    "value": "on"
+                },
+                {
+                    "action": "select",
+                    "selector": "[data-testid=\"network-select\"]",
+                    "value": "1"
+                },
+                {
+                    "action": "select",
+                    "selector": "[data-testid=\"network-select\"]",
+                    "value": "2"
+                },
+                {
+                    "action": "type",
+                    "selector": "[data-testid=\"network-select\"]",
+                    "value": "2"
+                }
+            ]
+        }
+    ]
+}
