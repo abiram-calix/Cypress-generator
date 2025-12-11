@@ -257,6 +257,12 @@ function showAssertionPopup(selector, x, y) {
   const valueContainer = popup.querySelector("#assertion-value-container");
   const valueInput = popup.querySelector("#assertion-value");
 
+  // Show input field by default since "assertText" is selected by default
+  const initialValue = assertionType.value;
+  if (initialValue === "assertText" || initialValue === "assertValue") {
+    valueContainer.style.display = "block";
+  }
+
   assertionType.addEventListener("change", () => {
     const selectedValue = assertionType.value;
     if (selectedValue === "assertText" || selectedValue === "assertValue") {
@@ -437,7 +443,7 @@ chrome.runtime.onMessage.addListener((msg) => {
     console.log("Content script received message:", msg.type);
     isRecording = true;
     steps = [];
-    
+
     // Record the current URL as the first step
     const currentUrl = window.location.href;
     recordEvent("visit", "", currentUrl);

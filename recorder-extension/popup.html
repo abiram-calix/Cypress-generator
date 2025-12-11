@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
     <title>Cypress Test Recorder</title>
     <style>
         * {
@@ -166,7 +167,7 @@
         }
 
         .instructions li::before {
-            content: "•";
+            content: "▪";
             position: absolute;
             left: 0;
             color: #38ef7d;
@@ -210,7 +211,7 @@
 
         <div class="button-group">
             <button id="export">
-                Export Test
+                Export Recording
             </button>
         </div>
 
@@ -221,7 +222,8 @@
                 <li>Single click = Record action</li>
                 <li>Double click = Add assertion</li>
                 <li>Click "Stop" when done</li>
-                <li>Export your test file</li>
+                <li>Export your recording
+                </li>
             </ul>
         </div>
     </div>
