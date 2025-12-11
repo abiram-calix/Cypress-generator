@@ -3,6 +3,14 @@ let isRecording = false;
 let isAssertionMode = false;
 let steps = [];
 
+// Track click patterns for text selection
+let clickTracker = {
+  element: null,
+  selector: null,
+  count: 0,
+  timer: null,
+};
+
 // Utility: Debounce function
 function debounce(fn, delay) {
   let timer;
@@ -68,9 +76,69 @@ const handleClickDebounced = debounce((e) => {
     }
   }
 
-  // Default click behaviour
+  // Check if this is the same element being clicked multiple times (text selection)
   const selector = getBestSelector(e.target);
-  recordEvent("click", selector);
+
+  if (clickTracker.element === e.target && clickTracker.selector === selector) {
+    // Same element clicked again - increment count but don't record yet
+    clickTracker.count++;
+    console.log(
+      `🔄 Multiple clicks detected on ${selector} (count: ${clickTracker.count})`
+    );
+
+    // Clear previous timer
+    if (clickTracker.timer) {
+      clearTimeout(clickTracker.timer);
+    }
+
+    // Set timer to record click only if no more clicks come within 500ms
+    clickTracker.timer = setTimeout(() => {
+      if (clickTracker.count >= 3) {
+        // Multiple clicks likely for text selection - don't record as click
+        console.log(
+          `🎯 Text selection detected on ${selector}, not recording clicks`
+        );
+      } else {
+        // Single or double click - record normally
+        recordEvent("click", selector);
+        console.log(`🖱️ Click recorded: ${selector}`);
+      }
+
+      // Reset tracker
+      clickTracker.element = null;
+      clickTracker.selector = null;
+      clickTracker.count = 0;
+      clickTracker.timer = null;
+    }, 500);
+  } else {
+    // Different element or first click
+    // Clear any existing timer
+    if (clickTracker.timer) {
+      clearTimeout(clickTracker.timer);
+      // Process previous element if it was a single/double click
+      if (clickTracker.count <= 2 && clickTracker.selector) {
+        recordEvent("click", clickTracker.selector);
+        console.log(`🖱️ Previous click recorded: ${clickTracker.selector}`);
+      }
+    }
+
+    // Set up new tracking
+    clickTracker.element = e.target;
+    clickTracker.selector = selector;
+    clickTracker.count = 1;
+
+    // Set timer for this click
+    clickTracker.timer = setTimeout(() => {
+      recordEvent("click", selector);
+      console.log(`🖱️ Single click recorded: ${selector}`);
+
+      // Reset tracker
+      clickTracker.element = null;
+      clickTracker.selector = null;
+      clickTracker.count = 0;
+      clickTracker.timer = null;
+    }, 500);
+  }
 });
 
 // ✅ Debounced input recording

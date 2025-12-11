@@ -23,3 +23,20 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+const commandsToDelay = ["visit", "click", "type", "clear", "reload"];
+
+commandsToDelay.forEach((command) => {
+  Cypress.Commands.overwrite(command, (originalFn, ...args) => {
+    //const result = originalFn(...args);
+    return new Promise((resolve) => {
+      setTimeout(() => resolve(originalFn(...args)), 500);
+    });
+  });
+});
+
+// Override the default click command
+Cypress.Commands.overwrite("click", (originalFn, subject, options) => {
+  // Merge existing options with force: true
+  const newOptions = { ...options, force: true };
+  return originalFn(subject, newOptions);
+});

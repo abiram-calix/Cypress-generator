@@ -5,7 +5,7 @@
       "steps": [
         {
           "action": "click",
-          "selector": "[data-testid=\"dropdown-secondary\"]",
+          "selector": "[data-testid=\"dropdown-secondary\"] span",
           "value": ""
         },
         {
@@ -40,7 +40,7 @@
         },
         {
           "action": "click",
-          "selector": "[aria-label=\"Next month\"] path",
+          "selector": "[aria-label=\"Next month\"] svg",
           "value": ""
         },
         {
@@ -50,7 +50,7 @@
         },
         {
           "action": "click",
-          "selector": "[data-testid=\"CalendarIcon\"] path",
+          "selector": "[data-testid=\"form-item-container\"]",
           "value": ""
         },
         {
@@ -71,7 +71,82 @@
         {
           "action": "type",
           "selector": "[data-testid=\"po-number-1\"]",
-          "value": "890"
+          "value": "1"
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-2\"]",
+          "value": "2"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"po-number-2\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"po-number-3\"]",
+          "value": ""
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-3\"]",
+          "value": "111"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"po-number-4\"]",
+          "value": ""
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-4\"]",
+          "value": "1111"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"po-number-5\"]",
+          "value": ""
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-5\"]",
+          "value": "11111"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"po-number-6\"]",
+          "value": ""
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-6\"]",
+          "value": "111111"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"po-number-7\"]",
+          "value": ""
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-7\"]",
+          "value": "1111111"
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"po-number-8\"]",
+          "value": ""
+        },
+        {
+          "action": "type",
+          "selector": "[data-testid=\"po-number-8\"]",
+          "value": "121212"
+        },
+        {
+          "action": "assertText",
+          "selector": "[data-testid=\"form-summary-table\"] td",
+          "value": "$61,550.00 USD"
         }
       ]
     }
