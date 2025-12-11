@@ -87,9 +87,24 @@ document.addEventListener("click", (e) => {
 
 // ✅ Input event listener
 document.addEventListener("input", (e) => {
-  if (isRecording) {
-    debouncedRecordInput(e);
+  if (!isRecording) return;
+
+  // ✅ Ignore input events on assertion popup components
+  if (
+    e.target.closest("#cypress-assertion-popup") ||
+    e.target.id === "cypress-assertion-popup" ||
+    [
+      "assertion-type",
+      "assertion-value",
+      "save-assertion",
+      "cancel-assertion",
+      "close-assertion-popup",
+    ].includes(e.target.id)
+  ) {
+    return;
   }
+
+  debouncedRecordInput(e);
 });
 
 // ✅ Double-click event listener for assertions
@@ -140,10 +155,9 @@ function showAssertionPopup(selector, x, y) {
     <div style="margin-bottom: 10px;">
       <label style="display: block; margin-bottom: 5px;">Assertion Type:</label>
       <select id="assertion-type" style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 4px;">
+        <option value="assertText">Text content assertion</option>
+        <option value="assertValue">Input value assertion</option>
         <option value="should('be.visible')">Should be visible</option>
-        <option value="should('contain.text', 'TEXT')">Should contain text</option>
-        <option value="should('have.value', 'VALUE')">Should have value</option>
-        <option value="should('have.class', 'CLASS')">Should have class</option>
         <option value="should('be.disabled')">Should be disabled</option>
         <option value="should('be.enabled')">Should be enabled</option>
         <option value="should('be.checked')">Should be checked</option>
@@ -168,11 +182,7 @@ function showAssertionPopup(selector, x, y) {
 
   assertionType.addEventListener("change", () => {
     const selectedValue = assertionType.value;
-    if (
-      selectedValue.includes("TEXT") ||
-      selectedValue.includes("VALUE") ||
-      selectedValue.includes("CLASS")
-    ) {
+    if (selectedValue === "assertText" || selectedValue === "assertValue") {
       valueContainer.style.display = "block";
       valueInput.focus();
     } else {
@@ -183,21 +193,35 @@ function showAssertionPopup(selector, x, y) {
   // Handle save assertion
   popup.querySelector("#save-assertion").addEventListener("click", () => {
     const assertionValue = valueInput.value;
-    let finalAssertion = assertionType.value;
+    const selectedAssertion = assertionType.value;
 
-    // Replace placeholders with actual values
-    if (finalAssertion.includes("TEXT") && assertionValue) {
-      finalAssertion = finalAssertion.replace("TEXT", assertionValue);
-    } else if (finalAssertion.includes("VALUE") && assertionValue) {
-      finalAssertion = finalAssertion.replace("VALUE", assertionValue);
-    } else if (finalAssertion.includes("CLASS") && assertionValue) {
-      finalAssertion = finalAssertion.replace("CLASS", assertionValue);
+    // Generate the correct action type based on selection
+    if (selectedAssertion === "assertText") {
+      if (assertionValue) {
+        recordEvent("assertText", selector, assertionValue);
+        console.log(
+          `🔍 Text assertion added: ${selector} should contain "${assertionValue}"`
+        );
+      } else {
+        alert("Please enter the expected text value");
+        return;
+      }
+    } else if (selectedAssertion === "assertValue") {
+      if (assertionValue) {
+        recordEvent("assertValue", selector, assertionValue);
+        console.log(
+          `🔍 Value assertion added: ${selector} should have value "${assertionValue}"`
+        );
+      } else {
+        alert("Please enter the expected input value");
+        return;
+      }
+    } else {
+      // For other assertions that don't need the new action types
+      recordEvent("assert", selector, selectedAssertion);
+      console.log(`🔍 Assertion added: ${selector}.${selectedAssertion}`);
     }
 
-    // Record the assertion
-    recordEvent("assert", selector, finalAssertion);
-
-    console.log(`🔍 Assertion added: ${selector}.${finalAssertion}`);
     popup.remove();
   });
 
