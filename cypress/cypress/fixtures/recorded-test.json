@@ -4,9 +4,9 @@
       "name": "Recorded Test",
       "steps": [
         {
-          "action": "click",
-          "selector": "[data-testid=\"ReportProblemOutlinedIcon\"]",
-          "value": ""
+          "action": "visit",
+          "selector": "",
+          "value": "http://localhost:3000/subscription-configurator/smartbiz-starter-program?version=3&transactionId=147145515&accountId=0017000000SbVK3&jwt=eyJhbGciOiJIUzI1NiJ9.eyJBY2NvdW50IjoiQ0FMSVgiLCJFY29tQ2hlY2tvdXQiOiJ0cnVlIiwiRmlyc3ROYW1lIjoiQ29tbWVyY2UiLCJFQ29tbWVyY2VBY2Nlc3MiOlsiUXVvdGUiLCJDaGVja291dCIsIk9yZGVyIE1hbmFnZXIiXSwiQ29udGFjdElkIjoiMDAzMGcwMDAwMlRJTzRiQUFIIiwiVXNlclNGaWQiOiIwMDUwZzAwMDAwNXRvWEFBQVkiLCJBY2NvdW50U0ZpZCI6IjAwMTcwMDAwMDBtQVBtWEFBVyIsIk9yYWNsZUlkIjoiIiwiRWNvbUFjY2VzcyI6InRydWUiLCJ1c2VyVHlwZSI6IlNZU1RFTSIsIkxhc3ROYW1lIjoiU3lzdGVtIiwiaWF0IjoxNTg2Mjk0NDQ5LCJlbWFpbCI6ImNvbW1lcmNlc3lzdGVtQGNhbGl4LmNvbSIsInVzZXJuYW1lIjoiY29tbWVyY2VzeXN0ZW1AY2FsaXguY29tIn0.KhBvDhLu8WMlzL9SwmMf-vd4r26NmXuVm0KOQxsrM78&certified=false&channel=direct&zone=AMERICAS&priceBook=Standard&currency=USD&readOnly=false&groups=subscriptionAll%2CsalesUser%2CorderManagement&headerLineNumber=2&returnUrl=https%3A%2F%2Fdevcalix.bigmachines.com%2Fcommerce%2Fbuyside%2Fdocument.jsp%3Fformaction%3DperformAction%26document_id%3D4653823%26action_id%3D4654396%26bm_cm_process_id%3D4653759%26id%3D147145515"
         },
         {
           "action": "click",
@@ -20,7 +20,7 @@
         },
         {
           "action": "click",
-          "selector": "[data-testid=\"form-duration\"] b",
+          "selector": "[data-testid=\"form-duration\"] button",
           "value": ""
         },
         {
@@ -30,7 +30,7 @@
         },
         {
           "action": "click",
-          "selector": "[data-testid=\"form-period-length\"] button",
+          "selector": "[data-testid=\"form-period-length\"] span",
           "value": ""
         },
         {
@@ -40,7 +40,7 @@
         },
         {
           "action": "click",
-          "selector": "[data-testid=\"CalendarIcon\"]",
+          "selector": "[aria-label=\"Choose date, selected date is Jan 1, 2026\"]",
           "value": ""
         },
         {
@@ -60,7 +60,7 @@
         },
         {
           "action": "click",
-          "selector": "[data-testid=\"form-payment-term\"] span",
+          "selector": "[data-testid=\"form-payment-term\"] button",
           "value": ""
         },
         {
@@ -70,28 +70,33 @@
         },
         {
           "action": "click",
-          "selector": "[data-testid=\"access-and-network-row-West Side Telecommunications\"] input",
+          "selector": "[data-testid=\"implementation-input-id-110-01556-1\"]",
+          "value": ""
+        },
+        {
+          "action": "click",
+          "selector": "[data-testid=\"price-input-000-01293-1\"]",
           "value": ""
         },
         {
           "action": "type",
-          "selector": "[data-testid=\"access-and-network-row-West Side Telecommunications\"] input",
-          "value": "on"
+          "selector": "[data-testid=\"price-input-000-01293-1\"]",
+          "value": "19"
         },
         {
-          "action": "select",
-          "selector": "[data-testid=\"network-select\"]",
-          "value": "1"
+          "action": "click",
+          "selector": "[data-testid=\"form-item-container\"]",
+          "value": ""
         },
         {
-          "action": "select",
-          "selector": "[data-testid=\"network-select\"]",
-          "value": "2"
+          "action": "assertText",
+          "selector": "[data-testid=\"discount-000-01293-1\"]",
+          "value": "-2.70%"
         },
         {
-          "action": "type",
-          "selector": "[data-testid=\"network-select\"]",
-          "value": "2"
+          "action": "assertText",
+          "selector": "[data-testid=\"form-summary-table\"] td",
+          "value": "$65,625.00 USD"
         }
       ]
     }
