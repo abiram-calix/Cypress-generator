@@ -149,6 +149,38 @@
             line-height: 1.5;
         }
 
+        .test-name-group {
+            margin-bottom: 15px;
+        }
+
+        .test-name-group label {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .test-name-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 13px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .test-name-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .test-name-group input:focus {
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
         .instructions h3 {
             font-size: 13px;
             margin-bottom: 8px;
@@ -207,6 +239,11 @@
             <button id="stop" disabled>
                 Stop Recording
             </button>
+        </div>
+
+        <div class="test-name-group">
+            <label for="test-name">Test Name:</label>
+            <input type="text" id="test-name" placeholder="Enter test name (e.g., Login Flow)" maxlength="50">
         </div>
 
         <div class="button-group">

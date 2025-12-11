@@ -38,28 +38,58 @@ document.getElementById("export").addEventListener("click", () => {
       return;
     }
 
-    const json = JSON.stringify(
-      { tests: [{ name: "Recorded Test", steps: steps }] },
-      null,
-      2
-    );
-    const blob = new Blob([json], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `cypress-test-${Date.now()}.json`;
-    a.click();
+    // Get test name from input field and clean it
+    const testNameInput = document.getElementById("test-name");
+    let testName = testNameInput.value.trim();
 
-    // Show success feedback
-    const exportBtn = document.getElementById("export");
-    const originalText = exportBtn.innerHTML;
-    exportBtn.innerHTML = "<span>✅</span>Exported!";
-    exportBtn.style.background = "linear-gradient(135deg, #11998e, #38ef7d)";
+    // If no name provided, use default
+    if (!testName) {
+      testName = "Recorded Test";
+    }
 
-    setTimeout(() => {
-      exportBtn.innerHTML = originalText;
-      exportBtn.style.background = "linear-gradient(135deg, #667eea, #764ba2)";
-    }, 2000);
+    // Remove spaces and special characters for the name field
+    const cleanTestName = testName.replace(/[^a-zA-Z0-9]/g, "");
+
+    const data = { tests: [{ name: cleanTestName, steps: steps }] };
+
+    // Send to backend API
+    fetch("http://localhost:4000/generate-test", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.success) {
+          // Show success feedback
+          const exportBtn = document.getElementById("export");
+          const originalText = exportBtn.innerHTML;
+          exportBtn.innerHTML = "<span>✅</span>Generated!";
+          exportBtn.style.background =
+            "linear-gradient(135deg, #11998e, #38ef7d)";
+
+          setTimeout(() => {
+            exportBtn.innerHTML = originalText;
+            exportBtn.style.background =
+              "linear-gradient(135deg, #667eea, #764ba2)";
+          }, 3000);
+
+          // Show success message with filename
+          alert(
+            `Test generated successfully!\n\nFile: ${result.filename}\nSaved to: cypress/e2e/generated/`
+          );
+        } else {
+          throw new Error(result.error || "Unknown error");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert(
+          `Failed to generate test: ${error.message}\n\nMake sure the server is running:\ncd cypress-test-generator\nnode server.js`
+        );
+      });
   });
 });
 
